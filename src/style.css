@@ -1,0 +1,62 @@
+/* Container styles */
+/* Background styles */
+
+.container {
+    margin: 20px auto;
+    padding: 0 15px;
+    font-family: Arial, sans-serif;
+}
+
+/* Row styles */
+.row {
+    margin-bottom: 30px;
+}
+
+/* Column styles */
+.col-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+    padding: 0 15px;
+}
+
+/* Card styles */
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Heading styles */
+h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Link styles */
+.card-link {
+    text-decoration: none;
+    color: #333;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+    .col-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 768px) {
+    .col-4 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}

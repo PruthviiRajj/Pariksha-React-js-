@@ -1,0 +1,45 @@
+/* Styles for the container */
+.container {
+    margin: 20px auto;
+    padding: 0 15px;
+    font-family: Arial, sans-serif;
+}
+
+/* Styles for rows */
+.row {
+    margin-bottom: 30px;
+}
+
+/* Styles for columns */
+.col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+/* Styles for cards */
+.card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for card body */
+.card-body {
+    text-align: center;
+}
+
+/* Styles for heading */
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Styles for marks */
+.marks {
+    font-size: 36px;
+    font-weight: bold;
+    color: #28a745; /* Green color for marks */
+}
