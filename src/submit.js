@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import withRouter from './withrouter';
 import { useLocation } from 'react-router-dom';
 import "./marks.css";
-// import './submit.css';
+import toast from 'react-hot-toast';
 
 function Submit(props) {
-    let location = useLocation()
+    const location = useLocation();
+    const marks = location?.state?.marks ?? 0;
+
+    useEffect(() => {
+        toast.success(`You scored ${marks} points`);
+    }, [marks]);
+
     return (
         <div className='container'>
             <div className='row'>
@@ -13,8 +19,7 @@ function Submit(props) {
                     <div className='card'>
                         <div className='card-body'>
                             <h1>Obtained marks</h1>
-                            <p style={{fontSize:200}}>{location.state.marks}</p>
-                            {console.log(location.state.marks)}
+                            <p style={{ fontSize: 48 }}>{marks}</p>
                         </div>
                     </div>
                 </div>

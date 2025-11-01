@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { FaCheck } from 'react-icons/fa';
 import './style.css';
 
-class Radio extends Component {
-    state = {  } 
-    render() { 
-        return (
-            <div>
-                <input checked={this.props.checked} onChange={()=>this.props.handleCLick(this.props.index,this.props.name)} type='radio' name='x'/> {this.props.name}
-            </div>            
-        );
-    }
-}
- 
+const Radio = ({ index, name, checked, handleCLick }) => {
+    return (
+        <button
+            type="button"
+            onClick={() => handleCLick(index, name)}
+            className={checked ? 'btn-primary-modern' : 'btn-ghost'}
+            style={{width:'100%',textAlign:'left',display:'flex',alignItems:'center',justifyContent:'space-between'}}
+        >
+            <span>{name}</span>
+            {checked && <FaCheck />}
+        </button>
+    );
+};
+
 export default Radio;

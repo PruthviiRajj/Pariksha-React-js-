@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import withRouter from './withrouter';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 import Clock from './clock';
 import Radio from './radio';
@@ -43,29 +44,43 @@ class Test extends Component {
     }
     returnOptions(){        
         if(this.state.qt.length !==0){
-            return this.state.options[this.state.index].map((item)=>{
-                return <div><h4 className='mb-3'><Radio  index={this.state.index} handleCLick={this.handleClick.bind(this)} checked={this.state.correct[this.state.index] === item} name={item}/></h4></div>
-            })
+            return (
+                <div style={{display:'grid',gap:10,gridTemplateColumns:'1fr'}}>
+                    {this.state.options[this.state.index].map((item)=>{
+                        return (
+                            <div key={item}>
+                                <Radio  index={this.state.index} handleCLick={this.handleClick.bind(this)} checked={this.state.correct[this.state.index] === item} name={item}/>
+                            </div>
+                        )
+                    })}
+                </div>
+            )
         }         
     }
 
     shouldDisplayPrev(){
         if(this.state.index !== 0){
-            return <button onClick={this.Prev} type="button" style={{float:'left'}} class="btn btn-outline-info">Prev</button>            
+            return <button onClick={this.Prev} type="button" style={{float:'left'}} className="btn-ghost">Prev</button>            
         }
     }
 
     shouldDisplayNext(){
         if(this.state.index === this.state.qt.length-1){
-            return <button onClick={this.submit.bind(this)} type="button" style={{float:'right'}} class="btn btn-success">Submit</button>
+            return <button onClick={this.submit.bind(this)} type="button" style={{float:'right'}} className="btn-primary-modern">Submit</button>
         }else{
-            return <button onClick={this.Next.bind(this)} type="button" style={{float:'right'}} class="btn btn-outline-info">Next</button>
+            return <button onClick={this.Next.bind(this)} type="button" style={{float:'right'}} className="btn-ghost">Next</button>
         }
     }
     submit(){
         let marks = this.evaluate();
         console.log(marks);
-        this.props.navigate('/submit',{state : {marks:marks}});        
+        this.props.navigate('/submit',{state : {marks:marks}});
+        // show a small toast notifying of submission
+        try{
+            toast.success(`Submitted — score: ${marks}`);
+        }catch(e){
+            // ignore if toast not available in environment
+        }
     }
     onTimecomplete(){
         let marks = this.evaluate();
@@ -131,55 +146,55 @@ class Test extends Component {
     }
     render() {      
         if (this.state.loading) {
-            return <div className='conatiner mt-5'>
-                <div className='row mt-5'>
-                    <div className='col-12'>                                                    
-                        <h1 style={{marginLeft:800,marginTop:200}}><ScaleLoader  color="#0DCAF0" size={100}/></h1>                                         
+            return (
+                <div className='container mt-5'>
+                    <div style={{display:'flex',alignItems:'center',justifyContent:'center',minHeight:300}}>
+                        <ScaleLoader  color="#0DCAF0" size={40}/>
                     </div>
                 </div>
-            </div> // Render loader while loading
-                
+            ) // Render loader while loading
         }                
         return (
 
             
             <div className='container mt-5'>
-                <div className='row'>
-                    <div className='col-3'>
-                        <h4>Questions</h4>
-                        {
-                            this.state.qt.map((item,index)=>{
-                                if(index === this.state.index){
-                                    return <button style={{margin:3,padding:15}} className='btn btn-info' onClick={()=> this.oncall(index)}>{index + 1}</button>
-                                }else{
-                                    return <button style={{margin:3,padding:15}} className='btn btn-outline-info' onClick={()=> this.oncall(index)}>{index + 1}</button>
-                                }                                
-                            })
-                        }
-                    </div>
-                    <div className='col-6'>
-                        <div style={{minHeight:400}}>
-                            <h1 className='mb-4'>{this.state.index+1}. {this.returnQuest(this.state.index)}</h1>
-                            {console.log(this.state.answer)}
-                            {                                   
-                                this.returnOptions(this.state.index)
-                            }
-                        </div>                        
-                        <div className='mt-4'>
-                            {this.shouldDisplayPrev()}
-                            {this.shouldDisplayNext()}
-                        </div>                        
-                    </div>                    
-                    <div className='col-3'>
+                <div style={{display:'grid',gridTemplateColumns:'240px 1fr 300px',gap:20,alignItems:'start'}}>
+                    <aside>
                         <div className='card'>
-                            <div className='card-body'>
-                                {   
-                                    <Clock sec={180} onTimecomplete={this.onTimecomplete.bind(this)}/>
-                                }
-                            </div>                            
-                        </div>                            
-                    </div>                           
-                    <div className='col-3'></div>
+                            <h4 style={{margin:0,marginBottom:8}}>Questions</h4>
+                            <div style={{display:'flex',flexWrap:'wrap',gap:8,marginTop:8}}>
+                                {this.state.qt.map((item,index)=>{
+                                    return (
+                                        <button key={index} onClick={()=> this.oncall(index)} className={index===this.state.index? 'btn-primary-modern':'btn-ghost'} style={{padding:8,minWidth:44}}>{index + 1}</button>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </aside>
+
+                    <section>
+                        <div className='card'>
+                            <div style={{minHeight:180}}>
+                                <h2 style={{marginTop:0,fontSize:20}}>{this.state.index+1}. {this.returnQuest(this.state.index)}</h2>
+                                <div style={{marginTop:12}}>
+                                    {this.returnOptions(this.state.index)}
+                                </div>
+                            </div>
+                            <div style={{display:'flex',justifyContent:'space-between',marginTop:12}}>
+                                {this.shouldDisplayPrev()}
+                                {this.shouldDisplayNext()}
+                            </div>
+                        </div>
+                    </section>
+
+                    <aside>
+                        <div className='card'>
+                            <h4 style={{margin:0}}>Timer</h4>
+                            <div style={{marginTop:12}}>
+                                <Clock sec={180} onTimecomplete={this.onTimecomplete.bind(this)}/>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
             </div>
         );

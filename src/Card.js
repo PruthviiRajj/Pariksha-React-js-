@@ -1,23 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import withRouter from './withrouter';
+import { FaBolt } from 'react-icons/fa';
 
+const difficultyFor = (id) => {
+    const n = parseInt(id, 10) || 0;
+    if (n % 3 === 0) return 'Easy';
+    if (n % 3 === 1) return 'Medium';
+    return 'Hard';
+};
 
-class Card extends Component {
-    state = {  }     
-
-    render() { 
-        return (            
-            <div class="card mt-3">
-                <div class="card-body">                    
-                    <h5 class="card-title">{this.props.name}</h5>                    
-                    <p class="text-secondary">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <Link to={'/test/' + this.props.id} class="btn btn-sm btn-info card-link">Take Test</Link>                    
+const Card = ({ name, id }) => {
+    const difficulty = difficultyFor(id);
+    return (
+        <motion.div className="card" whileHover={{ scale: 1.02 }} transition={{ duration: 0.25 }}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12}}>
+                <div>
+                    <h5 className="card-title">{name}</h5>
+                    <p className="text-secondary">A quick {difficulty.toLowerCase()} quiz to test your knowledge.</p>
+                </div>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:8}}>
+                    <span className="badge">{difficulty}</span>
+                    <Link to={'/test/' + id} className="btn-primary-modern" style={{padding:'6px 10px',fontSize:13}}>
+                        <FaBolt style={{marginRight:6}} /> Start
+                    </Link>
                 </div>
             </div>
-        );
-    }
-}
- 
+        </motion.div>
+    );
+};
+
 export default withRouter(Card);
 
