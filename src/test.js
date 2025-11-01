@@ -115,13 +115,12 @@ class Test extends Component {
                 answer.push(response.data.results[i].correct_answer);           
                 let temp = [];
                 correct.push("");
-                response.data.results[i].incorrect_answers.map((option)=>{
+                response.data.results[i].incorrect_answers.forEach((option)=>{
                     temp.push(option);
                 })
                 temp.push(response.data.results[i].correct_answer);
                 options.push(this.shuffleArray(temp));
             }
-            let quest = response.data.results;
             this.setState({qt:questions,index:0,options:options,answer:answer,correct:correct, loading: false});  
             console.log(this.state.answer);    
         })

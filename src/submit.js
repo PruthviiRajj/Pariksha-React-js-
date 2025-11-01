@@ -1,5 +1,4 @@
 import React from 'react';
-import Card from './Card';
 import withRouter from './withrouter';
 import { useLocation } from 'react-router-dom';
 import "./marks.css";
